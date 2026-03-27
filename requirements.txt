@@ -1,5 +1,5 @@
 pyrofork==2.3.69
-tgcrypto
+tgcrypto==1.2.5
 motor>=3.3.0
 pymongo>=4.6.0
 fastapi>=0.111.0
