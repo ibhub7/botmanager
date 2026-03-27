@@ -1,0 +1,29 @@
+# Secrets — never bake into image
+.env
+*.env
+
+# Session files — mount as volume instead
+sessions/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pycache
+
+# Dev/editor
+.git/
+.gitignore
+.venv/
+venv/
+*.egg-info/
+
+# Docs (not needed at runtime)
+README.md
+*.md
+
+# OS
+.DS_Store
+Thumbs.db
