@@ -1,0 +1,37 @@
+name: infinity-bot
+services:
+  - name: bot
+    type: web
+    docker:
+      dockerfile: Dockerfile
+    ports:
+      - port: 8080
+        protocol: http
+    env:
+      - key: API_ID
+        value: ""
+      - key: API_HASH
+        value: ""
+      - key: BOT_TOKEN
+        value: ""
+      - key: MONGO_URL
+        value: ""
+      - key: OWNER_ID
+        value: ""
+      - key: LOG_CHANNEL
+        value: ""
+      - key: START_PIC
+        value: ""
+      - key: BOT_USERNAME
+        value: ""
+      - key: KOYEB_APP_NAME
+        value: ""
+      - key: PORT
+        value: "8080"
+    routes:
+      - path: /
+        port: 8080
+    healthchecks:
+      - path: /health
+        port: 8080
+        protocol: http

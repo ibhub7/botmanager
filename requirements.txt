@@ -1,0 +1,11 @@
+pyrofork==2.3.69
+tgcrypto
+motor
+pymongo
+fastapi
+uvicorn[standard]
+aiohttp
+aiofiles
+python-dotenv
+httpx
+Pillow
