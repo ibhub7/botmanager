@@ -10,7 +10,7 @@ class Config:
     MONGO_URL = os.environ.get("MONGO_URL", "")
     OWNER_ID = int(os.environ.get("OWNER_ID", 0))
     LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", 0))
-    START_PIC = os.environ.get("START_PIC", "https://telegra.ph/file/your-image.jpg")
+    START_PIC = os.environ.get("START_PIC", "https://i.ibb.co/nM2Bcjg8/photo-2026-03-28-14-53-24-7622319747731816468.jpg")
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
     KOYEB_APP_NAME = os.environ.get("KOYEB_APP_NAME", "")
     KOYEB_API_KEY = os.environ.get("KOYEB_API_KEY", "")
