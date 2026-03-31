@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor Dashboard Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        :root { 
+            --bg: #0b0f1a; 
+            --card: #161b2c; 
+            --neon-g: #10b981; 
+            --neon-r: #f43f5e; 
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 10px; 
+            text-align: center; 
+        }
+        .header { 
+            margin-bottom: 30px; 
+            padding: 25px; 
+            background: linear-gradient(180deg, #1e293b 0%, var(--bg) 100%);
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .header h1 { margin: 0; font-size: 28px; letter-spacing: -1px; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 10px;
+        }
+        .bot-card { 
+            background: var(--card); 
+            padding: 20px; 
+            border-radius: 20px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4); 
+            border: 1px solid #2d3748;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        /* Top accent border */
+        .bot-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--neon-g);
+        }
+        .bot-card.offline::before { background: var(--neon-r); }
+
+        .bot-card:hover { transform: translateY(-8px); border-color: #4a5568; }
+        
+        .bot-link {
+            color: var(--text-main); text-decoration: none; font-size: 20px; font-weight: 700;
+            display: block; margin-bottom: 15px;
+        }
+        .bot-link:hover { color: var(--neon-g); }
+
+        .status-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 8px 16px; border-radius: 30px; font-size: 14px; font-weight: 600;
+            background: rgba(15, 23, 42, 0.6); border: 1px solid #334155;
+        }
+        .dot { 
+            height: 8px; width: 8px; border-radius: 50%; margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        .Online { background: var(--neon-g); box-shadow: 0 0 10px var(--neon-g); }
+        .Offline { background: var(--neon-r); box-shadow: 0 0 10px var(--neon-r); }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .refresh-tag { font-size: 12px; color: var(--text-dim); margin-top: 15px; }
+        #countdown { color: var(--neon-g); font-weight: bold; }
+
+        /* Empty State */
+        .empty-msg { grid-column: 1/-1; padding: 50px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌐 Monitor <span style="color:var(--neon-g)">Dashboard</span></h1>
+        <p style="color:var(--text-dim); margin-top:10px;">
+            📅 {{ date }} | ⏰ Sync: <b style="color:white">{{ time }}</b>
+        </p>
+    </div>
+
+    <div class="grid" id="bot-grid">
+        {% if bots %}
+            {% for bot in bots %}
+            <div class="bot-card {{ 'offline' if 'Offline' in bot.status else '' }}">
+                <a href="https://t.me/{{ bot.username }}" target="_blank" class="bot-link">
+                    🤖 {{ bot.name }}
+                </a>
+                
+                <div class="status-badge">
+                    <span class="dot {{ 'Online' if 'Online' in bot.status else 'Offline' }}"></span>
+                    <span style="color: {{ '#10b981' if 'Online' in bot.status else '#f43f5e' }}">
+                        {{ bot.status }}
+                    </span>
+                </div>
+                
+                <p class="refresh-tag">Next update in <span id="countdown">30</span>s</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-msg">
+                <h3>🚫 No Bots Found</h3>
+                <p>Add bots using <code>/addbot</code> in Telegram to see them here.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        let timeLeft = 30;
+        setInterval(() => {
+            if(timeLeft <= 0) {
+                location.reload(); // Hard refresh to get new Jinja data
+            } else {
+                document.querySelectorAll('#countdown').forEach(el => {
+                    el.innerText = timeLeft;
+                });
+                timeLeft -= 1;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

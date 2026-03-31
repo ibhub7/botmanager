@@ -1,0 +1,9 @@
+pyrofork
+tgcrypto
+motor
+fastapi
+uvicorn
+aiohttp
+pytz
+python-dotenv
+jinja2
